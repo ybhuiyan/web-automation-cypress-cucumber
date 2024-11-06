@@ -1,0 +1,36 @@
+name: Cypress Tests using Cypress Docker Image
+
+on:
+  push
+  #schedule: ## Schedule the job to run at 12.am daily.
+    #- cron: "55 15 * * *"
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    container:
+      image: cypress/browsers:node18.12.0-chrome106-ff106
+      options: --user 1001
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress test run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run
+          browser: chrome
+
+      - name: Generate HTML report
+        run: |
+          mkdir public
+          cp -r cypress/videos cypress/reports public
+          npm run report:generate
+        if: always()
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cypress/reports/html
+        if: always()
