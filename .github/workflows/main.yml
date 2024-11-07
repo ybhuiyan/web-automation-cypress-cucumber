@@ -3,7 +3,7 @@ name: Cypress Tests using Cypress Docker Image
 on:
   push
   #schedule: ## Schedule the job to run at 12.am daily.
-    #- cron: "55 15 * * *"
+  #- cron: "55 15 * * *"
 
 jobs:
   cypress-run:
@@ -29,8 +29,8 @@ jobs:
         if: always()
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_PAGES_TOKEN}}
           publish_dir: ./cypress/reports/html
         if: always()
