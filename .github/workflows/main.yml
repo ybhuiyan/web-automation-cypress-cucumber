@@ -1,4 +1,4 @@
-name: Cypress Tests using Cypress Docker Image
+name: Cypress Tests
 
 on:
   push
@@ -21,16 +21,16 @@ jobs:
           build: npm run
           browser: chrome
 
-      - name: Generate HTML report
-        run: |
-          mkdir public
-          cp -r cypress/videos cypress/reports public
-          npm run report:generate
-        if: always()
+      # - name: Generate HTML report
+      #   run: |
+      #     mkdir public
+      #     cp -r cypress/videos cypress/reports public
+      #     npm run report:generate
+      #   if: always()
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          personal_token: ${{ secrets.GH_PAGES_TOKEN}}
-          publish_dir: ./cypress/reports/html
-        if: always()
+      # - name: Deploy
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     personal_token: ${{ secrets.GH_PAGES_TOKEN}}
+      #     publish_dir: ./cypress/reports/html
+      #   if: always()
